@@ -6,7 +6,7 @@ const ObjectId = require('mongodb').ObjectId;
 const {MongoClient, ServerApiVersion, ClientSession} = require('mongodb');
 
 app.use(cors());
-app.use(express());
+app.use(express.json());
 
 const uri = "mongodb+srv://mollikacomputer3:xuuHWRYiahfvbPnx@cluster0.q5xegkn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
@@ -24,27 +24,42 @@ async function run() {
     await client.connect();
     const userCollection = client.db('News-test').collection("user")
 
-    // app.get('/users', async(req, res)=>{
+    //1 app.get('/users', async(req, res)=>{
     //     const query = {};
     //     const cursor = userCollection.find(query);
     //     const user = await cursor.toArray();
     //     res.send(user);
     // });
 
-    // app.get('/users', async(req, res)=>{
+    //2 app.get('/users', async(req, res)=>{
     //     const query = {};
     //     const cursor = userCollection.find(query);
     //     const users = await cursor.toArray();
     //     res.send(users)
     // });
 
-    app.get('/users', async(req, res)=>{
-        const query = {};
-        const cursor = userCollection.find(query);
-        const users = await cursor.toArray();
-        res.send(users);
-    });
+    //3 app.get('/users', async(req, res)=>{
+    //     const query = {};
+    //     const cursor = userCollection.find(query);
+    //     const users = await cursor.toArray();
+    //     res.send(users);
+    // });
     
+    app.get('/users', async(req, res)=>{
+      const query = {};
+      const cursor = userCollection.find(query);
+      const users = await cursor.toArray();
+      res.send(users)
+    });
+    app.post('/users', async(req, res) =>{
+      const newUser = req.body;
+      console.log('get new user from client side', newUser);
+      // send data to server
+      const result = await userCollection.insertOne(newUser);
+      res.send(result);
+      console.log(result);
+    })
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");

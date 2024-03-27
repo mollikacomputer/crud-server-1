@@ -51,15 +51,42 @@ async function run() {
       const users = await cursor.toArray();
       res.send(users)
     });
-    app.post('/users', async(req, res) =>{
+
+    // // add user POST method
+    // app.post('/users', async(req, res) =>{
+    //   const newUser = req.body;
+    //   console.log('get new user from client side', newUser);
+    //   // send data to server
+    //   const result = await userCollection.insertOne(newUser);
+    //   res.send(result);
+    //   console.log(result);
+    // })
+    // add user POST method
+    // app.post('/users', async(req, res)=>{
+    //   const newUser = req.body;
+    //   console.log(newUser);
+    //   // sent to mongodb database
+    //   const result = await userCollection.insertOne(newUser);
+    //   res.send(result);
+    //   console.log(result);
+    // });
+    
+    // // add user POST method
+    // app.post('/users', async(req, res)=>{
+    //   const newUser = req.body;
+    //   console.log(newUser);
+    //   const result = await userCollection.insertOne(newUser);
+    //   res.send(result);
+    //   console.log(result);
+    // });
+
+    // add POST api
+    app.post('/users', async(req, res)=>{
       const newUser = req.body;
-      console.log('get new user from client side', newUser);
-      // send data to server
+      console.log(newUser);
       const result = await userCollection.insertOne(newUser);
       res.send(result);
-      console.log(result);
     })
-
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");

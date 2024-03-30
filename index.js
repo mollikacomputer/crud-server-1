@@ -51,6 +51,31 @@ async function run() {
       const users = await cursor.toArray();
       res.send(users)
     });
+    // Update a single data from client side
+    app.get('/users/:id', async(req, res)=>{
+      const id = req.params.id;
+      console.log("update Id", id);
+      const query = {_id:new ObjectId(id)};
+      const user = await userCollection.findOne(query);
+      res.send(user);
+    });
+    // update users
+    app.put('/users/:id', async(req, res)=>{
+      const id = req.params.id;
+      const user = req.body;
+      console.log("Data client side to server side: ", id, user);
+
+      const filter = {_id: new ObjectId(id)}
+      const options = {upsert:true}
+      const updatedUser = {
+        $set:{
+          name:user.name,
+          email:user.email,
+        }
+      }
+      const result = await userCollection.updateOne(filter, updatedUser, options);
+      res.send(result);
+    } );
 
     // // add user POST method
     // app.post('/users', async(req, res) =>{
